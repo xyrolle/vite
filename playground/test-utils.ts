@@ -18,6 +18,7 @@ import type {
 import type { DepOptimizationMetadata, Manifest } from 'vite'
 import { normalizePath } from 'vite'
 import { expect } from 'vitest'
+import type { TestOptions } from 'vitest'
 import { isWindows, page, sourcemapSnapshot, testDir } from './vitestSetup'
 
 export * from './vitestSetup'
@@ -467,4 +468,17 @@ export function promiseWithResolvers<T>(): PromiseWithResolvers<T> {
     reject = _reject
   })
   return { promise, resolve, reject }
+}
+
+/**
+ * Test options for a case that does not pass under bundled dev yet.
+ * See the `bundled-dev/*` tags in `vitest.config.e2e.ts`.
+ */
+export function bundledDevTodo(reason: string): TestOptions {
+  return { tags: ['bundled-dev/todo'], meta: { reason } }
+}
+
+/** Test options for a case that does not apply to bundled dev, by design. */
+export function bundledDevUnsupported(reason: string): TestOptions {
+  return { tags: ['bundled-dev/unsupported'], meta: { reason } }
 }
